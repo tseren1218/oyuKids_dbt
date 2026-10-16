@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: gold_stt_dataset
+    description: "STT manifest (NeMo/HF-д экспортлоно). Зөвхөн STT зөвшөөрөлтэй, pseudonymized."
+    columns:
+      - { name: utterance_id, tests: [unique, not_null] }
+      - { name: label_text, tests: [not_null] }
+      - name: data_split
+        tests: [{ accepted_values: { arguments: { values: ['train', 'dev', 'test'] } } }]
+      - name: label_source
+        tests: [{ accepted_values: { arguments: { values: ['reference_exact', 'asr_pseudo'] } } }]
+  - name: gold_tts_dataset
+    columns:
+      - { name: utterance_id, tests: [unique, not_null] }
+  - name: gold_llm_sft
+    columns:
+      - { name: sample_id, tests: [unique, not_null] }
+      - { name: assistant_output, tests: [not_null] }
+  - name: gold_item_difficulty
+  - name: gold_annotation_queue
+    columns:
+      - { name: attempt_id, tests: [unique] }
+  - name: gold_flywheel_daily
+    columns:
+      - { name: created_date, tests: [unique, not_null] }

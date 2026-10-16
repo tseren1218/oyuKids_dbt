@@ -1,0 +1,18 @@
+version: 2
+sources:
+  - name: oyu_app
+    description: >
+      Oyu app-ийн SingleStore database. Prod: OYU_SRC_DB=<app db>, OYU_SRC_PREFIX=''.
+      Demo: seeds (raw_*) dwh database дотор ачаалагдана.
+    database: "{{ env_var('OYU_SRC_DB', target.database) }}"
+    schema: "{{ target.schema }}"   # SingleStore-д үл хэрэглэгдэнэ
+    tables:
+      - { name: users,             identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}users" }
+      - { name: passages,          identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}passages" }
+      - { name: poems,             identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}poems" }
+      - { name: classrooms,        identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}classrooms" }
+      - { name: memberships,       identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}memberships" }
+      - { name: assignments,       identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}assignments" }
+      - { name: word_rounds,       identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}word_rounds" }
+      - { name: attempts,          identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}attempts" }
+      - { name: guardian_consents, identifier: "{{ env_var('OYU_SRC_PREFIX', 'raw_') }}guardian_consents" }

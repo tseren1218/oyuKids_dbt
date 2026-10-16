@@ -1,0 +1,14 @@
+version: 2
+models:
+  - name: brz_attempts
+    description: "Raw attempt-ууд, төрөл хөрвүүлсэн. Нэг мөр = нэг бичлэг/оролдлого."
+    columns:
+      - { name: attempt_id, tests: [unique, not_null] }
+      - name: activity
+        tests: [{ accepted_values: { arguments: { values: ['reading', 'words', 'poems'] } } }]
+  - name: brz_users
+    columns:
+      - { name: user_id, tests: [unique, not_null] }
+  - name: brz_word_rounds
+    columns:
+      - { name: round_id, tests: [unique, not_null] }

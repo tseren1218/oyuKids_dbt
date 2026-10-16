@@ -1,0 +1,16 @@
+oyu_flywheel:
+  target: singlestore
+  outputs:
+    singlestore:
+      type: singlestore
+      host: "{{ env_var('SINGLESTORE_HOST', 'localhost') }}"
+      port: "{{ env_var('SINGLESTORE_PORT', '3306') | int }}"
+      user: "{{ env_var('SINGLESTORE_USER', 'root') }}"
+      password: "{{ env_var('SINGLESTORE_PASSWORD', '') }}"
+      database: "{{ env_var('OYU_DWH_DB', 'oyu_dwh') }}"   # brz_/slv_/gold_ хүснэгтүүд энд үүснэ
+      schema: oyu                                          # SingleStore-д нөлөөгүй (dbt-ийн дотоод нэр)
+      threads: 4
+    local:          # зөвхөн SingleStore-гүй үед SQL логикийг турших
+      type: duckdb
+      path: oyu.duckdb
+      threads: 4

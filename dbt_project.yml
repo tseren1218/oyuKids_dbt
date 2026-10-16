@@ -1,0 +1,44 @@
+name: oyu_flywheel
+version: "1.0.0"
+config-version: 2
+profile: oyu_flywheel
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+test-paths: ["tests"]
+
+# SingleStore-д schema гэж байхгүй (database = schema) тул layer-ийг
+# хүснэгтийн prefix-ээр ялгана: brz_* → slv_* → gold_*  (бүгд OYU_DWH_DB дотор)
+vars:
+  pseudo_salt: "{{ env_var('OYU_PSEUDO_SALT', 'demo-salt-change-me') }}"
+  min_duration_ms: 1500        # санамсаргүй товшилтыг хасна
+  max_duration_ms: 180000
+  stt_pseudo_min_score: 0.75
+  annotation_max_score: 0.98
+  tts_min_wpm: 40
+  tts_max_wpm: 160
+
+models:
+  oyu_flywheel:
+    bronze: { +materialized: table, +tags: [bronze] }
+    silver: { +materialized: table, +tags: [silver] }
+    gold:   { +materialized: table, +tags: [gold] }
+
+seeds:
+  oyu_flywheel:
+    util_numbers:
+      +column_types: { n: integer }
+    # raw_* = demo өгөгдөл (app хүснэгт байхгүй үед л ачаална)
+    raw_attempts:
+      +column_types: { item_id: text, details: text, audio_url: text, transcript: text, wpm: double, assignment_id: integer, created_at: datetime }
+    raw_passages:
+      +column_types: { body: text }
+    raw_poems:
+      +column_types: { body: text }
+    raw_word_rounds:
+      +column_types: { assignment_id: integer, created_at: datetime }
+    raw_assignments:
+      +column_types: { item_id: text, due_date: date, created_at: datetime }
+    raw_users:
+      +column_types: { grade: integer }

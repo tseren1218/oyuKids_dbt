@@ -1,0 +1,18 @@
+version: 2
+models:
+  - name: slv_speakers
+    description: "Pseudonymized хүүхдийн профайл + зөвшөөрлийн scope (0/1 flag)"
+    columns:
+      - { name: speaker_id, tests: [unique, not_null] }
+  - name: slv_reference_texts
+    columns:
+      - name: reference_norm
+        tests: [not_null]
+  - name: slv_attempts
+    description: "Align хийгдсэн бичлэгүүд + чанарын flag (incremental)"
+    columns:
+      - { name: attempt_id, tests: [unique, not_null] }
+      - name: reference_norm
+        tests: [not_null]
+      - name: speaker_id
+        tests: [not_null]
